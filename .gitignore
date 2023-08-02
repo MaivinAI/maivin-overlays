@@ -1,0 +1,5 @@
+*.cmd
+*.tmp
+*.dtbo
+*.symvers
+modules.order
