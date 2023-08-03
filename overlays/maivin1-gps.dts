@@ -1,0 +1,42 @@
+// SPDX-License-Identifier: AGPL-3.0
+/*
+ * Copyright 2023 Au-Zone Technologies
+ */
+
+// Maivin 1 GPS+IMU Expansion Board
+
+/dts-v1/;
+/plugin/;
+
+#include <dt-bindings/clock/imx8mp-clock.h>
+#include <dt-bindings/gpio/gpio.h>
+
+#include "imx8mp-pinfunc.h"
+
+/ {
+	compatible = "toradex,verdin-imx8mp";
+};
+
+/* Verdin I2C_1 */
+&i2c4 {
+    #address-cells = <1>;
+	#size-cells = <0>;
+	status = "okay";
+
+    gpio@70 {
+		compatible = "nxp,pca9538";
+		reg = <0x70>;
+		gpio-controller;
+		#gpio-cells = <2>;
+		gpio-line-names =
+			"IMU_RST",
+			"IMU_BOOT",
+			"IMU_INT",
+			"TIMEPULSE",
+			"",
+			"",
+			"",
+			"GPS_RST";
+		status = "okay";
+	};
+};

@@ -17,6 +17,45 @@
 	compatible = "toradex,verdin-imx8mp";
 };
 
+/* Verdin I2C_2 */
+&i2c2 {
+	#address-cells = <1>;
+	#size-cells = <0>;
+	status = "okay";
+
+	dac@d {
+		compatible = "ti,dac081c081", "ti,dac5571";
+		reg = <0x0d>;
+		vref-supply = <&csi_3v3>;
+	};
+};
+
+/* Verdin I2C_4 */
+&i2c3 {
+	#address-cells = <1>;
+	#size-cells = <0>;
+	status = "okay";
+
+	dac@d {
+		compatible = "ti,dac081c081", "ti,dac5571";
+		reg = <0x0d>;
+		vref-supply = <&csi_3v3>;
+	};
+};
+
+/* Verdin I2C_1 */
+&i2c4 {
+	#address-cells = <1>;
+	#size-cells = <0>;
+	status = "okay";
+
+	eeprom_rear_io: eeprom@54 {
+		compatible = "st,24c02";
+		pagesize = <16>;
+		reg = <0x54>;
+	};
+};
+
 &iomuxc {
 	/* Rear IO */
 	pinctrl_rear_io: rear_io {

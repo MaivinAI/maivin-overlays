@@ -17,6 +17,126 @@
 	compatible = "toradex,verdin-imx8mp";
 };
 
+&gpio1 {
+	gpio-line-names = "CSI1_IO1", /* SODIMM_206 */
+			  "CSI2_IO1", /* SODIMM_208 */
+			  "",
+			  "",
+			  "",
+			  "CSI1_IO2", /* SODIMM_210 */
+			  "CSI2_IO2", /* SODIMM_212 */
+			  "CAM1_RST", /* SODIMM_216 */
+			  "CAM1_PWDN", /* SODIMM_218 */
+			  "",
+			  "",
+			  "SODIMM_16",
+			  "SODIMM_155",
+			  "SODIMM_157",
+			  "SODIMM_185",
+			  "SODIMM_91";
+};
+
+&gpio3 {
+	gpio-line-names = "WDI", /* SODIMM_52 */
+			  "M2_PWR_EN", /* SODIMM_54 */
+			  "",
+			  "",
+			  "",
+			  "",
+			  "CARD_PWR_OFF", /* SODIMM_56 */
+			  "CSI_EN", /* SODIMM_58 */
+			  "SODIMM_60",
+			  "M2_RST", /* SODIMM_62 */
+			  "",
+			  "",
+			  "",
+			  "",
+			  "GPS_RST", /* SODIMM_66 */
+			  "",
+			  "TIMEPULSE", /* SODIMM_64 */
+			  "",
+			  "",
+			  "SODIMM_34",
+			  "SODIMM_19",
+			  "",
+			  "SODIMM_32",
+			  "",
+			  "",
+			  "SODIMM_30",
+			  "SODIMM_59",
+			  "SODIMM_57",
+			  "SODIMM_63",
+			  "SODIMM_61";
+};
+
+&gpio4 {
+	gpio-line-names = "SODIMM_252",
+			  "CAM2_PWDN", /* SODIMM_222 */
+			  "SODIMM_36",
+			  "CAM2_RST", /* SODIMM_220 */
+			  "SODIMM_193",
+			  "SODIMM_191",
+			  "SODIMM_201",
+			  "SODIMM_203",
+			  "SODIMM_205",
+			  "SODIMM_207",
+			  "SODIMM_199",
+			  "SODIMM_197",
+			  "SODIMM_221",
+			  "SODIMM_219",
+			  "SODIMM_217",
+			  "SODIMM_215",
+			  "SODIMM_211",
+			  "SODIMM_213",
+			  "SODIMM_189",
+			  "SODIMM_244",
+			  "SODIMM_38",
+			  "",
+			  "SD_PWR_EN", /* SODIMM_76 */
+			  "SODIMM_135",
+			  "SODIMM_133",
+			  "SODIMM_17",
+			  "SODIMM_24",
+			  "SODIMM_26",
+			  "SODIMM_21",
+			  "SODIMM_256",
+			  "IMU_BOOT", /* SODIMM_48 */
+			  "IMU_INT"; /* SODIMM_44 */
+};
+
+&gpio5 {
+	gpio-line-names = "SODIMM_42",
+			  "IMU_RST", /* SODIMM_46 */
+			  "SODIMM_187",
+			  "SODIMM_20",
+			  "SODIMM_22",
+			  "SODIMM_15",
+			  "SODIMM_196",
+			  "SODIMM_200",
+			  "SODIMM_198",
+			  "SODIMM_202",
+			  "",
+			  "",
+			  "",
+			  "",
+			  "",
+			  "",
+			  "I2C2_SCL", /* SODIMM_55 */
+			  "I2C2_SDA", /* SODIMM_53 */
+			  "I2C4_SCL", /* SODIMM_95 */
+			  "I2C4_SDA", /* SODIMM_93 */
+			  "SODIMM_14",
+			  "SODIMM_12",
+			  "SODIMM_129",
+			  "SODIMM_131",
+			  "SODIMM_137",
+			  "SODIMM_139",
+			  "SODIMM_147",
+			  "SODIMM_149",
+			  "SODIMM_151",
+			  "SODIMM_153";
+};
+
 &iomuxc {
 	/* GPS Controls */
 	pinctrl_gps: gps {
