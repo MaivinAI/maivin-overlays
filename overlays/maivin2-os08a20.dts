@@ -50,6 +50,18 @@
 	};
 };
 
+&cameradev {
+	status = "okay";
+};
+
+&isp_0 {
+	status = "okay";
+};
+
+&dewarp {
+	status = "okay";
+};
+
 &mipi_csi_0 {
 	#address-cells = <1>;
 	#size-cells = <0>;
@@ -64,25 +76,5 @@
 			csis-clk-settle = <2>;
 			csis-wclk;
 		};
-	};
-};
-
-&cameradev {
-	status = "okay";
-};
-
-&dewarp {
-	status = "okay";
-};
-
-&isi_0 {
-	status = "okay";
-
-	cap_device {
-		status = "okay";
-	};
-
-	m2m_device {
-		status = "okay";
 	};
 };
