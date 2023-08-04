@@ -137,6 +137,15 @@
 			  "SODIMM_153";
 };
 
+&leds {
+	rear_io {
+		label = "rear_io";
+		pwms = <&pwm1 0 5000000 0>;
+		max-brightness = <255>;
+		linux,default-trigger = "heartbeat";
+	};
+};
+
 &iomuxc {
 	/* GPS Controls */
 	pinctrl_gps: gps {
