@@ -37,6 +37,8 @@
 };
 
 &gpio3 {
+	pinctrl-names = "default";
+	pinctrl-0 = <&pinctrl_m2>;
 	gpio-line-names = "WDI", /* SODIMM_52 */
 			  "M2_PWR_EN", /* SODIMM_54 */
 			  "",
@@ -67,6 +69,19 @@
 			  "SODIMM_57",
 			  "SODIMM_63",
 			  "SODIMM_61";
+    m2_card_pwr {
+        gpio-hog;
+        gpios = <6 0>;
+        output-high;
+        line-name = "m2_card_pwr";
+    };
+    
+    m2_rst {
+        gpio-hog;
+        gpios = <9 0>;
+        output-high;
+        line-name = "m2_rst";
+    };
 };
 
 &gpio4 {
