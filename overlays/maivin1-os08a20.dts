@@ -3,7 +3,7 @@
  * Copyright 2023 Au-Zone Technologies
  */
 
-// OmniVision OS08A20 4K Camera Modules for Maivin 2
+// OmniVision OS08A20 4K Camera Modules for Maivin 1
 
 /dts-v1/;
 /plugin/;
@@ -23,11 +23,11 @@
 	#size-cells = <0>;
 	status = "okay";
 
-	os08a20_0: os08a20_mipi@36 {
+	os08a20_portrait: os08a20_mipi@36 {
 		compatible = "ovti,os08a20";
 		reg = <0x36>;
 		pinctrl-names = "default";
-		pinctrl-0 = <&pinctrl_csi1>;
+		pinctrl-0 = <&pinctrl_csi1_control>;
 		DVDD-supply = <&csi_3v3>;
 		clocks = <&clk_dummy>;
 		clock-names = "csi_mclk";
@@ -36,8 +36,8 @@
 		csi_id = <0>;
 		status = "okay";
 
-		rst-gpios = <&gpio1 7 GPIO_ACTIVE_LOW>;
-		pwn-gpios = <&gpio1 8 GPIO_ACTIVE_HIGH>;
+		pwn-gpios = <&gpio1 7 GPIO_ACTIVE_HIGH>;
+		rst-gpios = <&gpio4 3 GPIO_ACTIVE_LOW>;
 
 		port {
 			os08a20_mipi_0_ep: endpoint {
@@ -48,6 +48,18 @@
 			};
 		};
 	};
+};
+
+&cameradev {
+	status = "okay";
+};
+
+&isp_0 {
+	status = "okay";
+};
+
+&dewarp {
+	status = "okay";
 };
 
 &mipi_csi_0 {
@@ -64,25 +76,5 @@
 			csis-clk-settle = <2>;
 			csis-wclk;
 		};
-	};
-};
-
-&cameradev {
-	status = "okay";
-};
-
-&dewarp {
-	status = "okay";
-};
-
-&isi_0 {
-	status = "okay";
-
-	cap_device {
-		status = "okay";
-	};
-
-	m2m_device {
-		status = "okay";
 	};
 };
