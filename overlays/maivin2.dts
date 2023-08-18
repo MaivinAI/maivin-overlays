@@ -74,7 +74,7 @@
         output-high;
         line-name = "m2_card_pwr";
     };
-    
+
     m2_rst {
         gpio-hog;
         gpios = <9 0>;
@@ -157,6 +157,18 @@
 		pwms = <&pwm1 0 5000000 0>;
 		max-brightness = <255>;
 		linux,default-trigger = "heartbeat";
+	};
+};
+
+/* Verdin I2C_1 */
+&i2c4 {
+	#address-cells = <1>;
+	#size-cells = <0>;
+	status = "okay";
+
+	humidity-sensor@40 {
+		compatible = "meas,htu21";
+		reg = <0x40>;
 	};
 };
 
