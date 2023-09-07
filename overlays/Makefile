@@ -21,6 +21,7 @@ dtb-y += maivin1-os08a20.dtbo
 dtb-y += maivin1-gps.dtbo
 dtb-y += maivin2.dtbo
 dtb-y += maivin2-os08a20.dtbo
+dtb-y += maivin2-modem.dtbo
 
 targets += $(dtb-y)
 always  := $(dtb-y)
