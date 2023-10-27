@@ -50,11 +50,48 @@
 	};
 };
 
+/* Verdin I2C_2_CSI */
+&i2c2 {
+	#address-cells = <1>;
+	#size-cells = <0>;
+	status = "okay";
+
+	os08a20_landscape: os08a20_mipi@36 {
+		compatible = "ovti,os08a20";
+		reg = <0x36>;
+		pinctrl-names = "default";
+		pinctrl-0 = <&pinctrl_csi2_control>;
+		DVDD-supply = <&csi_3v3>;
+		clocks = <&clk_dummy>;
+		clock-names = "csi_mclk";
+		mclk = <24000000>;
+		mclk_source = <0>;
+		csi_id = <1>;
+		status = "okay";
+
+		rst-gpios = <&gpio4 3 GPIO_ACTIVE_LOW>;
+		pwn-gpios = <&gpio4 1 GPIO_ACTIVE_HIGH>;
+
+		port {
+			os08a20_mipi_1_ep: endpoint {
+				data-lanes = <1 2 3 4>;
+				clock-lanes = <0>;
+				max-pixel-frequency = /bits/ 64 <500000000>;
+				remote-endpoint = <&mipi_csi1_ep>;
+			};
+		};
+	};
+};
+
 &cameradev {
 	status = "okay";
 };
 
 &isp_0 {
+	status = "okay";
+};
+
+&isp_1 {
 	status = "okay";
 };
 
@@ -71,6 +108,23 @@
 		reg = <0>;
 		mipi_csi0_ep: endpoint {
 			remote-endpoint = <&os08a20_mipi_0_ep>;
+			data-lanes = <4>;
+			csis-hs-settle = <16>;
+			csis-clk-settle = <2>;
+			csis-wclk;
+		};
+	};
+};
+
+&mipi_csi_1 {
+	#address-cells = <1>;
+	#size-cells = <0>;
+	status = "okay";
+
+	port@1 {
+		reg = <1>;
+		mipi_csi1_ep: endpoint {
+			remote-endpoint = <&os08a20_mipi_1_ep>;
 			data-lanes = <4>;
 			csis-hs-settle = <16>;
 			csis-clk-settle = <2>;
