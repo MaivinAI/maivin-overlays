@@ -102,6 +102,9 @@
 &mipi_csi_0 {
 	#address-cells = <1>;
 	#size-cells = <0>;
+	clock-frequency = <500000000>;
+	assigned-clock-parents = <&clk IMX8MP_SYS_PLL2_1000M>;
+	assigned-clock-rates = <500000000>;
 	status = "okay";
 
 	port@0 {
@@ -119,6 +122,9 @@
 &mipi_csi_1 {
 	#address-cells = <1>;
 	#size-cells = <0>;
+	clock-frequency = <500000000>;
+	assigned-clock-parents = <&clk IMX8MP_SYS_PLL2_1000M>;
+	assigned-clock-rates = <500000000>;
 	status = "okay";
 
 	port@1 {
