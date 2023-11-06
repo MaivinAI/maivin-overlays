@@ -56,6 +56,22 @@
 	};
 };
 
+&cameradev {
+	status = "okay";
+};
+
+&isp_0 {
+	status = "okay";
+};
+
+&isp_1 {
+	status = "okay";
+};
+
+&dewarp {
+	status = "okay";
+};
+
 &iomuxc {
 	/* Rear IO */
 	pinctrl_rear_io: rear_io {
