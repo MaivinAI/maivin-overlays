@@ -17,6 +17,22 @@
 	compatible = "toradex,verdin-imx8mp";
 };
 
+&cameradev {
+	status = "okay";
+};
+
+&isp_0 {
+	status = "okay";
+};
+
+&isp_1 {
+	status = "okay";
+};
+
+&dewarp {
+	status = "okay";
+};
+
 /* Verdin I2C_2_CSI */
 &i2c2 {
 	#address-cells = <1>;

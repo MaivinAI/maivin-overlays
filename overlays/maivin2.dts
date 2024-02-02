@@ -159,22 +159,6 @@
 	};
 };
 
-&cameradev {
-	status = "okay";
-};
-
-&isp_0 {
-	status = "okay";
-};
-
-&isp_1 {
-	status = "okay";
-};
-
-&dewarp {
-	status = "okay";
-};
-
 &iomuxc {
 	/* GPS Controls */
 	pinctrl_gps: gps {
