@@ -3,3 +3,4 @@
 *.dtbo
 *.symvers
 modules.order
+.vscode-ctags
