@@ -1,0 +1,47 @@
+// SPDX-License-Identifier: AGPL-3.0
+/*
+ * Copyright 2023 Au-Zone Technologies
+ */
+
+// Maivin 2 Overlays
+
+/dts-v1/;
+/plugin/;
+
+#include <dt-bindings/clock/imx8mp-clock.h>
+#include <dt-bindings/gpio/gpio.h>
+
+#include "imx8mp-pinfunc.h"
+
+/ {
+	compatible = "toradex,verdin-imx8mp";
+};
+
+&m2_3v3 {
+        regulator-always-on;
+};
+
+&gpio3 {
+	m2_card_pwr {
+		gpio-hog;
+		gpios = <6 0>;
+		output-high;
+		line-name = "CARD_PWR_OFF";
+	};
+
+	m2_rst {
+		gpio-hog;
+		gpios = <9 0>;
+		output-high;
+		line-name = "M2_RST";
+	};
+};
+
+/* Verdin PCIE_1, for M.2 card slot */
+&pcie {
+	status = "okay";
+};
+
+&pcie_phy {
+	status = "okay";
+};
