@@ -37,7 +37,6 @@
 };
 
 &gpio3 {
-	pinctrl-0 = <&pinctrl_m2>;
 	gpio-line-names = "WDI", /* SODIMM_52 */
 			  "M2_PWR_EN", /* SODIMM_54 */
 			  "",
