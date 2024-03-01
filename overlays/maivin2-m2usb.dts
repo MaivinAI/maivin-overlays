@@ -3,7 +3,7 @@
  * Copyright 2023 Au-Zone Technologies
  */
 
-// Maivin 2 Overlays
+// Maivin 2 Overlays to enable M.2 card power and reset for USB M.2 cards.
 
 /dts-v1/;
 /plugin/;
@@ -21,11 +21,18 @@
         regulator-always-on;
 };
 
-/* Verdin PCIE_1, for M.2 card slot */
-&pcie {
-	status = "okay";
-};
+&gpio3 {
+	m2_card_pwr {
+		gpio-hog;
+		gpios = <6 0>;
+		output-high;
+		line-name = "CARD_PWR_OFF";
+	};
 
-&pcie_phy {
-	status = "okay";
+	m2_rst {
+		gpio-hog;
+		gpios = <9 0>;
+		output-high;
+		line-name = "M2_RST";
+	};
 };

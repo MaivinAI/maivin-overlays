@@ -3,7 +3,7 @@
  * Copyright 2023 Au-Zone Technologies
  */
 
-// OmniVision OS08A20 4K Camera on CSI1 for Maivin 1
+// Maivin 1 camera Overlay for the OS08A20 Sensor
 
 /dts-v1/;
 /plugin/;
@@ -17,29 +17,13 @@
 	compatible = "toradex,verdin-imx8mp";
 };
 
-&cameradev {
-	status = "okay";
-};
-
-&isp_0 {
-	status = "okay";
-};
-
-&isp_1 {
-	status = "okay";
-};
-
-&dewarp {
-	status = "okay";
-};
-
 /* Verdin I2C_4_CSI */
 &i2c3 {
 	#address-cells = <1>;
 	#size-cells = <0>;
 	status = "okay";
 
-	os08a20_portrait: os08a20_mipi@36 {
+	os08a20: os08a20_mipi@36 {
 		compatible = "ovti,os08a20";
 		reg = <0x36>;
 		pinctrl-names = "default";

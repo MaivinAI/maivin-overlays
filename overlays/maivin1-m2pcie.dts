@@ -3,7 +3,7 @@
  * Copyright 2023 Au-Zone Technologies
  */
 
-// Maivin 2 Overlays
+// Maivin 1 Overlays to enable PCIe for M.2 cards.
 
 /dts-v1/;
 /plugin/;

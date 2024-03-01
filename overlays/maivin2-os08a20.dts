@@ -3,7 +3,7 @@
  * Copyright 2023 Au-Zone Technologies
  */
 
-// OmniVision OS08A20 4K Camera on CSI2 "Landscape" for Maivin 2
+// Maivin 1 camera Overlay for the OS08A20 Sensor
 
 /dts-v1/;
 /plugin/;
@@ -15,22 +15,6 @@
 
 / {
 	compatible = "toradex,verdin-imx8mp";
-};
-
-&cameradev {
-	status = "okay";
-};
-
-&isp_0 {
-	status = "okay";
-};
-
-&isp_1 {
-	status = "okay";
-};
-
-&dewarp {
-	status = "okay";
 };
 
 /* Verdin I2C_2_CSI */
@@ -62,6 +46,59 @@
 				max-pixel-frequency = /bits/ 64 <500000000>;
 				remote-endpoint = <&mipi_csi1_ep>;
 			};
+		};
+	};
+};
+
+/* Verdin I2C_4_CSI */
+&i2c3 {
+	#address-cells = <1>;
+	#size-cells = <0>;
+	status = "okay";
+
+	os08a20_portrait: os08a20_mipi@36 {
+		compatible = "ovti,os08a20";
+		reg = <0x36>;
+		pinctrl-names = "default";
+		pinctrl-0 = <&pinctrl_csi1_control>;
+		DVDD-supply = <&csi_3v3>;
+		clocks = <&clk_dummy>;
+		clock-names = "csi_mclk";
+		mclk = <24000000>;
+		mclk_source = <0>;
+		csi_id = <0>;
+		status = "okay";
+
+		rst-gpios = <&gpio1 7 GPIO_ACTIVE_LOW>;
+		pwn-gpios = <&gpio1 8 GPIO_ACTIVE_HIGH>;
+
+		port {
+			os08a20_mipi_0_ep: endpoint {
+				data-lanes = <1 2 3 4>;
+				clock-lanes = <0>;
+				max-pixel-frequency = /bits/ 64 <500000000>;
+				remote-endpoint = <&mipi_csi0_ep>;
+			};
+		};
+	};
+};
+
+&mipi_csi_0 {
+	#address-cells = <1>;
+	#size-cells = <0>;
+	clock-frequency = <500000000>;
+	assigned-clock-parents = <&clk IMX8MP_SYS_PLL2_1000M>;
+	assigned-clock-rates = <500000000>;
+	status = "okay";
+
+	port@0 {
+		reg = <0>;
+		mipi_csi0_ep: endpoint {
+			remote-endpoint = <&os08a20_mipi_0_ep>;
+			data-lanes = <4>;
+			csis-hs-settle = <16>;
+			csis-clk-settle = <2>;
+			csis-wclk;
 		};
 	};
 };

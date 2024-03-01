@@ -17,15 +17,15 @@ HOSTCC := gcc $(DTS_INCLUDES)
 PWD := $(shell pwd)
 
 dtb-y += maivin1.dtbo
-dtb-y += maivin1-ar0521-csi1.dtbo
-dtb-y += maivin1-os08a20-csi1.dtbo
+dtb-y += maivin1-ar0521.dtbo
+dtb-y += maivin1-os08a20.dtbo
 dtb-y += maivin1-gps.dtbo
-dtb-y += maivin1-pcie.dtbo
+dtb-y += maivin1-m2usb.dtbo
+dtb-y += maivin1-m2pcie.dtbo
 dtb-y += maivin2.dtbo
-dtb-y += maivin2-os08a20-csi1.dtbo
-dtb-y += maivin2-os08a20-csi2.dtbo
-dtb-y += maivin2-modem.dtbo
-dtb-y += maivin2-pcie.dtbo
+dtb-y += maivin2-os08a20.dtbo
+dtb-y += maivin2-m2usb.dtbo
+dtb-y += maivin2-m2pcie.dtbo
 
 targets += $(dtb-y)
 always  := $(dtb-y)
