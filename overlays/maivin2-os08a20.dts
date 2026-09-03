@@ -87,18 +87,50 @@
 	#address-cells = <1>;
 	#size-cells = <0>;
 	/*
-	 * 266MHz / SYS_PLL1_266M matches NXP's own dual-OS08A20 reference
-	 * (imx8mp-evk-dual-os08a20.dts). IMX8MP_CLK_MEDIA_CAM2_PIX (used by
-	 * mipi_csi_1 below) is hard-capped at 277MHz by the SoC (enforced by
-	 * upstream kernel commit "clk: imx8mp: inform CCF of maximum
-	 * frequency of clocks", landed in Torizon's 6.6.94 kernel bump).
-	 * Both ports previously requested 500000000/SYS_PLL2_1000M, which
-	 * silently got clamped to 250MHz on CAM2_PIX once that cap was
-	 * enforced, starving the CSI-2 receiver and collapsing capture FPS.
+	 * 333MHz / SYS_PLL2_1000M (1000MHz / 3). Required for 4K: the CSI-2
+	 * receiver cannot sustain 3840x2160 at 30fps on less, and the failure
+	 * is a cliff rather than a slope -- 4K collapses to ~2fps, while
+	 * 1080p60 is unaffected at any rate tested.
+	 *
+	 * Measured on verdin-imx8mp-15141091 (landscape, sensor on CSI1 ->
+	 * CAM2_PIX), as camera/frame publish rate:
+	 *
+	 *   parent           div  rate        4K        1080p60
+	 *   sys_pll1_266m     1   266.67MHz    2.02fps   60.0Hz
+	 *   sys_pll1_800m     3   266.67MHz    2.02fps   60.0Hz
+	 *   sys_pll2_1000m    3   333.33MHz   30.05fps   59.97Hz
+	 *   sys_pll2_1000m    2   500.00MHz   30.06fps   60.0Hz
+	 *
+	 * Frequency is what matters, not the clock routing: the two 266.67MHz
+	 * rows reach the same frequency by different parents and both fail
+	 * identically. The knee sits in (266.67, 333.33], and 333 performs no
+	 * better than 500, so this is past it rather than on it.
+	 *
+	 * THIS EXCEEDS THE SoC LIMIT. IMX8MP_CLK_MEDIA_CAM2_PIX is specified
+	 * at 277MHz max, and no clock path reaches anything in
+	 * (266.67, 277] -- every integer divisor of every available parent
+	 * skips the window, so the highest in-spec rate is the 266.67MHz that
+	 * fails. 4K on this port therefore requires running the clock out of
+	 * spec, which is a deliberate decision and not an oversight.
+	 *
+	 * IT ALSO NEEDS A KERNEL PATCH TO SURVIVE. From Linux 6.6.87
+	 * ("clk: imx8mp: inform CCF of maximum frequency of clocks") the CCF
+	 * enforces that 277MHz cap on CAM2_PIX, silently clamping a 333MHz
+	 * request to 250MHz -- BELOW the 266.67MHz that ships today, which
+	 * would regress 4K and endanger 1080p60. Torizon's 6.6.84 kernel does
+	 * not enforce it (verified: clk_max_rate reads U64_MAX, and
+	 * clk-imx8mp.c registers these as plain composites with no
+	 * clk_hw_set_rate_range), so this works as-is today. The clamp must be
+	 * lifted in the kernel before any Torizon kernel bump past 6.6.87, or
+	 * this silently becomes the 500MHz regression all over again.
+	 *
+	 * mipi_csi_0 uses CAM1_PIX, which the same kernel change leaves
+	 * unconstrained; both ports are set together so the two do not run at
+	 * different rates for no reason.
 	 */
-	clock-frequency = <266000000>;
-	assigned-clock-parents = <&clk IMX8MP_SYS_PLL1_266M>;
-	assigned-clock-rates = <266000000>;
+	clock-frequency = <333333333>;
+	assigned-clock-parents = <&clk IMX8MP_SYS_PLL2_1000M>;
+	assigned-clock-rates = <333333333>;
 	status = "okay";
 
 	port@0 {
@@ -116,11 +148,13 @@
 &mipi_csi_1 {
 	#address-cells = <1>;
 	#size-cells = <0>;
-	/* See &mipi_csi_0 above: IMX8MP_CLK_MEDIA_CAM2_PIX is capped at
-	 * 277MHz by the SoC; 266MHz matches NXP's dual-OS08A20 reference. */
-	clock-frequency = <266000000>;
-	assigned-clock-parents = <&clk IMX8MP_SYS_PLL1_266M>;
-	assigned-clock-rates = <266000000>;
+	/* See &mipi_csi_0 above for the measurements, the out-of-spec
+	 * decision, and the kernel patch this depends on. This is the port
+	 * that actually matters on a landscape board: the sensor binds here
+	 * (os08a20 1-0036 -> CSI1 -> CAM2_PIX), which is the capped clock. */
+	clock-frequency = <333333333>;
+	assigned-clock-parents = <&clk IMX8MP_SYS_PLL2_1000M>;
+	assigned-clock-rates = <333333333>;
 	status = "okay";
 
 	port@1 {
