@@ -69,7 +69,7 @@
 			  "",
 			  "",
 			  "SODIMM_34",
-			  "SODIMM_19",
+			  "OUTPUT_1", /* SODIMM_19 */
 			  "",
 			  "SODIMM_32",
 			  "",
@@ -110,7 +110,7 @@
 			  "SODIMM_17",
 			  "SODIMM_24",
 			  "SODIMM_26",
-			  "SODIMM_21",
+			  "INPUT_1", /* SODIMM_21 */
 			  "SODIMM_256",
 			  "IMU_BOOT", /* SODIMM_48 */
 			  "IMU_INT"; /* SODIMM_44 */
