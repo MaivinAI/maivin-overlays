@@ -6,15 +6,15 @@
 // Maivin 1 camera Overlay for the OS08A20 Sensor
 //
 // Uses the same physical CSI connector position as maivin2-os08a20.dts's
-// landscape sensor (i2c2/CSI1/CAM2_PIX, csi_id=1) -- confirmed on real
-// Maivin 1 hardware (MVN2-203): the sensor only produces frames through the
-// ISP (isp_media_server CAMERA1) when connected here, not on the CSI0/i2c3
-// connector maivin1-ar0521.dts uses. An earlier version of this file wired
-// the sensor to i2c3/CSI0/csi_id=0 instead -- a copy-paste of
-// maivin2-os08a20.dts's *portrait* fragment rather than its landscape one --
-// which left the OS08A20 on a connector this board doesn't actually use it
-// on; the ISP never received a signal, and the plain ISI capture path
-// (mxc_isi/video4) that happened to still work masked this for a while.
+// landscape sensor (i2c2/CSI1/CAM2_PIX, csi_id=1): the sensor only produces
+// frames through the ISP (isp_media_server CAMERA1) when connected here,
+// not on the CSI0/i2c3 connector maivin1-ar0521.dts uses. An earlier
+// version of this file wired the sensor to i2c3/CSI0/csi_id=0 instead -- a
+// copy-paste of maivin2-os08a20.dts's *portrait* fragment rather than its
+// landscape one -- which left the OS08A20 on a connector this board
+// doesn't actually use it on; the ISP never received a signal, and the
+// plain ISI capture path (mxc_isi/video4) that happened to still work
+// masked this for a while.
 //
 // pwn-gpios/rst-gpios stay the same as the CSI0/AR0521 config: these are a
 // shared power/reset rail for the camera slot, not per-connector control
