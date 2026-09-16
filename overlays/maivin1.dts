@@ -72,15 +72,6 @@
 	status = "okay";
 };
 
-&isi_0 {
-	status = "okay";
-
-	cap_device {
-		status = "okay";
-	};
-
-};
-
 &iomuxc {
 	/* Rear IO */
 	pinctrl_rear_io: rear_io {

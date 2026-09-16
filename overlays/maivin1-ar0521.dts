@@ -71,3 +71,22 @@
 		};
 	};
 };
+
+/*
+ * AR0521 goes through the plain ISI capture path, not the ISP (unlike
+ * OS08A20 -- see maivin1-os08a20.dts). This used to live in the shared
+ * maivin1.dts base overlay, which meant loading maivin1-os08a20.dtbo instead
+ * of maivin1-ar0521.dtbo still enabled isi_0.cap_device for no reason -- it
+ * doesn't touch the OS08A20 ISP path either way (isp_0's actual sensor
+ * binding is done by isp_media_server via maivin-isp-detect, not this DT
+ * node), but it's dead weight the OS08A20 config shouldn't carry. Moved here
+ * so each camera overlay only enables what it actually needs, matching
+ * maivin2-os08a20.dts's pattern of never touching isi_0 at all.
+ */
+&isi_0 {
+	status = "okay";
+
+	cap_device {
+		status = "okay";
+	};
+};
