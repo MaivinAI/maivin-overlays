@@ -4,6 +4,24 @@
  */
 
 // Maivin 1 camera Overlay for the OS08A20 Sensor
+//
+// Uses the same physical CSI connector position as maivin2-os08a20.dts's
+// landscape sensor (i2c2/CSI1/CAM2_PIX, csi_id=1) -- confirmed on real
+// Maivin 1 hardware (MVN2-203): the sensor only produces frames through the
+// ISP (isp_media_server CAMERA1) when connected here, not on the CSI0/i2c3
+// connector maivin1-ar0521.dts uses. An earlier version of this file wired
+// the sensor to i2c3/CSI0/csi_id=0 instead -- a copy-paste of
+// maivin2-os08a20.dts's *portrait* fragment rather than its landscape one --
+// which left the OS08A20 on a connector this board doesn't actually use it
+// on; the ISP never received a signal, and the plain ISI capture path
+// (mxc_isi/video4) that happened to still work masked this for a while.
+//
+// pwn-gpios/rst-gpios stay the same as the CSI0/AR0521 config: these are a
+// shared power/reset rail for the camera slot, not per-connector control
+// lines -- confirmed by testing, both by driving the wrong pins (sensor
+// lost I2C ACK entirely) and by leaving them undriven (same result, "No
+// sensor pwdn/reset pin available"). Only the I2C bus, CSI receiver, and
+// csi_id actually change with connector position.
 
 /dts-v1/;
 /plugin/;
@@ -17,8 +35,8 @@
 	compatible = "toradex,verdin-imx8mp";
 };
 
-/* Verdin I2C_4_CSI */
-&i2c3 {
+/* Verdin I2C_2_CSI */
+&i2c2 {
 	#address-cells = <1>;
 	#size-cells = <0>;
 	status = "okay";
@@ -33,32 +51,39 @@
 		clock-names = "csi_mclk";
 		mclk = <24000000>;
 		mclk_source = <0>;
-		csi_id = <0>;
+		csi_id = <1>;
 		status = "okay";
 
 		pwn-gpios = <&gpio1 7 GPIO_ACTIVE_HIGH>;
 		rst-gpios = <&gpio4 3 GPIO_ACTIVE_LOW>;
 
 		port {
-			os08a20_mipi_0_ep: endpoint {
+			os08a20_mipi_1_ep: endpoint {
 				data-lanes = <1 2 3 4>;
 				clock-lanes = <0>;
 				max-pixel-frequency = /bits/ 64 <500000000>;
-				remote-endpoint = <&mipi_csi0_ep>;
+				remote-endpoint = <&mipi_csi1_ep>;
 			};
 		};
 	};
 };
 
-&mipi_csi_0 {
+&mipi_csi_1 {
 	#address-cells = <1>;
 	#size-cells = <0>;
+	/* See maivin2-os08a20.dts for the measurements and out-of-spec
+	 * clock-frequency rationale (277MHz SoC cap, 333MHz needed for 4K,
+	 * kernel patch dependency). Matching it here since this is the same
+	 * CSI1/CAM2_PIX port. */
+	clock-frequency = <333333333>;
+	assigned-clock-parents = <&clk IMX8MP_SYS_PLL2_1000M>;
+	assigned-clock-rates = <333333333>;
 	status = "okay";
 
-	port@0 {
-		reg = <0>;
-		mipi_csi0_ep: endpoint {
-			remote-endpoint = <&os08a20_mipi_0_ep>;
+	port@1 {
+		reg = <1>;
+		mipi_csi1_ep: endpoint {
+			remote-endpoint = <&os08a20_mipi_1_ep>;
 			data-lanes = <4>;
 			csis-hs-settle = <16>;
 			csis-clk-settle = <2>;
